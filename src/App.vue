@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { item } from './types/Todo';
+import { TodoItem } from './types/Todo';
 
-let todoList = ref([]);
+let todoList = ref<any[]>([]);
 const inputText = ref('');
 const itemId = ref(0);
 
@@ -19,16 +19,17 @@ const writeLocalStorage = () => {
 }
 
 const addTask = () => {
-  todoList.value.push({
+  const task: TodoItem = {
     id: itemId.value++,
     name: inputText.value || 'New task',
     done: false
-  })
+  }
+  todoList.value.push(task)
   inputText.value = '';
   writeLocalStorage()
 }
 
-const doneBtn = (id) => {
+const doneBtn = (id: number) => {
   todoList.value = todoList.value.map(item => {
     if (item.id === id) {
       item.done = !item.done
